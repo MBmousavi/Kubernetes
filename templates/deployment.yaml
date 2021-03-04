@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mygoapp
+spec:
+  selector:
+    matchLabels:
+      app: mygoapp
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: mygoapp
+    spec:
+      containers:
+        - name: mygoapp
+          image: smbmousavi/testgoapp:0.3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8020
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          ports:
+            - containerPort: 8020
